@@ -2,10 +2,7 @@ package com.example.springboot.myfirstwebapp.todo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -33,5 +30,18 @@ public class TodoResource {
         todoService.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/users/todos/{id}")
+    public Todo updateTodo(@PathVariable Integer id,@RequestBody Todo todo){                                 // along with id body will also be passed,
+        todoService.updateTodo(id,todo);                                                                  //what is the JSON that i would want to update the todo with?
+        return todo;                                                                          // so whatever todo is updated will be returned back
+    }
+
+    @PostMapping("/users/todos")
+    public Todo createTodo(@RequestBody Todo todo){
+        Todo createdTodo = todoService.addTodo(todo.getUsername(), todo.getDescription(),todo.getTargetDate(),todo.isDone());
+        return createdTodo;
+    }
+
 
 }

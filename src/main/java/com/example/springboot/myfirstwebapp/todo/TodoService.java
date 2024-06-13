@@ -35,4 +35,15 @@ public class TodoService {
         Todo todo = todos.stream().filter(predicate).findFirst().get();
         return todo;
     }
+
+    public void updateTodo(Integer id,Todo todo) {
+        deleteById(id);
+        todos.add(todo);
+    }
+
+    public Todo addTodo(String username,String description,LocalDate targetDate,boolean done) {
+        Todo todo = new Todo(++todosCount,username,description,targetDate,done);
+        todos.add(todo);
+        return todo;
+    }
 }
