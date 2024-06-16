@@ -1,5 +1,7 @@
 package com.example.springboot.myfirstwebapp.todo;
 
+import com.example.springboot.myfirstwebapp.jpa.TodoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

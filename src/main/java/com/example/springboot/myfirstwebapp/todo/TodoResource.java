@@ -1,45 +1,49 @@
 package com.example.springboot.myfirstwebapp.todo;
 
+import com.example.springboot.myfirstwebapp.jpa.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Optional;
 
 @RestController
 public class TodoResource {
 
-    @Autowired
-    private TodoService todoService;
+//    @Autowired
+//    private TodoService todoService;
 
+    @Autowired
+    private TodoRepository todoRepository;
 
     @GetMapping("/users/{username}/todos")
     public List<Todo> retrieveTodos(@PathVariable String username){
 
-       return todoService.findByUserName(username);
+       return todoRepository.findAll();
     }
 
     @GetMapping("/users/todos/{id}")
-    public Todo retrieveTodo(@PathVariable Integer id){
-        return todoService.findById(id);
+    public Optional<Todo> retrieveTodo(@PathVariable Integer id){
+        return todoRepository.findById(id);
     }
 
     @DeleteMapping("/users/todos/{id}")
     public ResponseEntity<Void> deleteTodo(@PathVariable Integer id){
-        todoService.deleteById(id);
+        todoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/users/todos/{id}")
     public Todo updateTodo(@PathVariable Integer id,@RequestBody Todo todo){                                 // along with id body will also be passed,
-        todoService.updateTodo(id,todo);                                                                  //what is the JSON that i would want to update the todo with?
-        return todo;                                                                          // so whatever todo is updated will be returned back
+         todoRepository.deleteById(id);                                                               //what is the JSON that i would want to update the todo with?     // so whatever todo is updated will be returned back
+         Todo updated = todoRepository.save(todo);
+         return updated;
     }
 
     @PostMapping("/users/todos")
     public Todo createTodo(@RequestBody Todo todo){
-        Todo createdTodo = todoService.addTodo(todo.getUsername(), todo.getDescription(),todo.getTargetDate(),todo.isDone());
+        Todo createdTodo = todoRepository.save(todo);
         return createdTodo;
     }
 
