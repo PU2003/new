@@ -1,6 +1,7 @@
 package com.example.springboot.myfirstwebapp.todo;
 
 import com.example.springboot.myfirstwebapp.jpa.TodoRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 public class TodoResource {
 
 //    @Autowired
@@ -17,9 +19,10 @@ public class TodoResource {
     @Autowired
     private TodoRepository todoRepository;
 
-    @GetMapping("/users/{username}/todos")
-    public List<Todo> retrieveTodos(@PathVariable String username){
 
+
+    @GetMapping("/users/findAll/todos")
+    public List<Todo> retrieveTodos(){
        return todoRepository.findAll();
     }
 
